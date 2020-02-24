@@ -32,8 +32,6 @@ export default withRouter(function FormAlbum({
     isRequesting: false
   });
 
-
-
   useEffect(() => {
 
     const getData = async () => {
@@ -52,9 +50,10 @@ export default withRouter(function FormAlbum({
         // Convert date
         albumRes.data.releaseDate =  new Date(albumRes.data.releaseDate).toISOString().slice(0,10);
 
-        Object.assign(newState, albumRes.data)
+        // Set image preview
+        albumRes.data.coverPreview = albumRes.data.cover;
 
-        
+        Object.assign(newState, albumRes.data)
       }
 
       setState(newState);
@@ -64,8 +63,6 @@ export default withRouter(function FormAlbum({
     getData();
 
   }, [mode, _id]);
-
-
 
   const handleChange = e => {
     e.persist();
