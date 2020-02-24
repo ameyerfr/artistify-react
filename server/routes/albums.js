@@ -53,7 +53,12 @@ router.get("/albums", (req, res, next) => {
 });
 
 router.get("/albums/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  albumModel.findById(req.params.id)
+  .then(album => {
+    res.status(200).json(album)
+  }).catch(err => {
+    res.status(500).json(err)
+  })
 });
 
 router.post("/albums", uploader.single("cover"), (req, res, next) => {
