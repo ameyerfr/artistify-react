@@ -10,7 +10,7 @@ cloudinary.config({
 
 const storage = cloudinaryStorage({
   cloudinary,
-  folder: "user-pictures",
+  folder: "artistify",
   //  params below is only needed if uploading media types other than images (video, audio...)
   // params: {
   //     ressource_type: "raw"
@@ -20,4 +20,3 @@ const storage = cloudinaryStorage({
 const fileUploader = multer({storage});
 
 module.exports = fileUploader;
-

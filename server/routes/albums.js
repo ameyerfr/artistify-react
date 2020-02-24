@@ -35,7 +35,7 @@ router.get("/albums", (req, res, next) => {
     .sort(sortQ) // the provided sort query comes into action here
     .limit(limitQ) // same thing for the limit query
     .then(async albums => {
-      // AVG : things are getting tricky here ! :) 
+      // AVG : things are getting tricky here ! :)
       // the following map is async, updating each artist with an avg rate
       const albumsWithRatesAVG = await Promise.all(
         albums.map(async album => {
@@ -57,7 +57,17 @@ router.get("/albums/:id", (req, res, next) => {
 });
 
 router.post("/albums", uploader.single("cover"), (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  if (!req.file) res.status(500).json({msg:"File upload failed"})
+
+  const newAlbum = {...req.body}
+  if (req.file && req.file.secure_url) newAlbum.cover = req.file.secure_url
+
+  albumModel.create(newAlbum).then((results) => {
+    res.status(200).json({ msg: "OK" })
+  }).catch(err => {
+    res.status(500).json(err)
+  })
+
 });
 
 router.patch("/albums/:id", uploader.single("cover"), (req, res, next) => {
