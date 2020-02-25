@@ -7,10 +7,12 @@ import "./../../styles/icon-color.css";
 
 export default function CardArtist({ data }) {
   return (
+    <>
     <Link to={`/albums/${data._id}`} className="link">
     <h3 className="title">{data.title}</h3>
     <img src={data.cover} alt={data.title} className="cover"/>
-    <IconFav resourceType="albums" resourceId={data._id} />
     </Link>
+    <IconFav resourceType="albums" resourceId={data._id} isAlreadyFavorite={data.isFavorite} />
+    </>
   )
 }

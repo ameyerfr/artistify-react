@@ -27,7 +27,29 @@ router.get("/users/:id/favorites", async (req, res, next) => {
 });
 
 router.patch("/users/favorites/:resourceType/:id", async (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+
+  userModel.findById(req.user._id)
+  .then(user => {
+    let isFavorite;
+    resourceFavorites = user.favorites[req.params.resourceType];
+
+    // Already favorites => remove
+    if (resourceFavorites.includes(req.params.id)) {
+      resourceFavorites.splice(resourceFavorites.indexOf(req.params.id), 1);
+      isFavorite = false;
+    // Not favorited yet => add
+    } else {
+      resourceFavorites.push(req.params.id);
+      isFavorite = true;
+    }
+
+    user.save(function (err) {
+      if (err) { next(err); return; }
+      res.status(200).json({ isFavorite: isFavorite })
+    });
+
+  }).catch(next)
+  
 });
 
 module.exports = router;
