@@ -3,12 +3,12 @@ import { withRouter } from "react-router-dom";
 // custom tools
 import APIHandler from "../../api/APIHandler";
 import ImageUpload from "./ImageUpload";
+import "./../../styles/image-upload.css";
 
 // import CustomInputFile from "./../icon/IconAvatarAdmin";
 import LabPreview from "../LabPreview";
 // styles
 import "./../../styles/form.css";
-import "./../../styles/icon-avatar.css";
 
 export default withRouter(function FormAlbum({
   mode = "create",
@@ -53,6 +53,7 @@ export default withRouter(function FormAlbum({
         // Set image preview
         albumRes.data.coverPreview = albumRes.data.cover;
 
+        // Add the edited Album data on the newState Object
         Object.assign(newState, albumRes.data)
       }
 
@@ -84,9 +85,10 @@ export default withRouter(function FormAlbum({
     try {
       if (mode === "create") {
         const apiResult = await APIHandler.post("/albums", fd);
-        console.log("apiResult : ", apiResult);
       }
-      // else await APIHandler.patch(`/labels/${match.params.id}`, fd);
+      else {
+        const apiResult = await APIHandler.patch(`/albums/${match.params.id}`, fd);
+      }
 
       history.push("/admin/albums");
     } catch (apiErr) {
@@ -118,6 +120,18 @@ export default withRouter(function FormAlbum({
         id="title"
         type="text"
         defaultValue={state.title}
+        required
+      />
+
+      <label className="label" htmlFor="description">
+          Description
+      </label>
+      <input
+        className="input"
+        id="description"
+        type="text"
+        defaultValue={state.description}
+        required
       />
 
       <label className="label" htmlFor="artist">
@@ -155,17 +169,7 @@ export default withRouter(function FormAlbum({
     </label>
     <ImageUpload imageData={state.coverPreview} clbk={e => handleImage(e.target.files[0])} />
 
-    <label className="label" htmlFor="description">
-        Description
-      </label>
-      <input
-        className="input"
-        id="description"
-        type="text"
-        defaultValue={state.description}
-      />
-
-    <button className="btn" disabled={state.isRequesting}>Create new ablum</button>
+    <button className="btn" disabled={state.isRequesting}>{mode === "create" ? 'Create' : 'Edit'} ablum</button>
     </form>
   );
 

@@ -76,7 +76,16 @@ router.post("/albums", uploader.single("cover"), (req, res, next) => {
 });
 
 router.patch("/albums/:id", uploader.single("cover"), (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+
+  const albumValues = {...req.body}
+  if (req.file && req.file.secure_url) albumValues.cover = req.file.secure_url
+
+  albumModel.findByIdAndUpdate(req.params.id, albumValues).then((results) => {
+    res.status(200).json({ msg: "OK" })
+  }).catch(err => {
+    res.status(500).json(err)
+  })
+
 });
 
 router.delete("/albums/:id", (req, res, next) => {

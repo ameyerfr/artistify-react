@@ -8,7 +8,7 @@ export default function ImageUpload({ clbk, imageData= ""}) {
   };
 
   return (
-    <div className={"is-clickable"} title="Choose image">
+    <div className={"is-clickable image-upload"} title="Choose image">
       {imageData && <img src={imageData} alt="Image url" />}
       <input
         ref={fileInput}
