@@ -72,8 +72,6 @@ router.post("/artists", (req, res) => {
 router.patch("/artists/:id", (req, res, next) => {
   const updatedArtist = req.body;
 
-  console.log(req.body)
-
   artistModel
     .findByIdAndUpdate(req.params.id, updatedArtist)
     .then(dbRes => {

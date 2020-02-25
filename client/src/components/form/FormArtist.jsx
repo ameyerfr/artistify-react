@@ -31,7 +31,7 @@ export default withRouter(function FormArtist({
 
       if (mode === "edit") {
         const artistsRes = await APIHandler.get(`/artists/${_id}`, state);
-     
+
         Object.assign(newState, artistsRes.data)
       }
 
