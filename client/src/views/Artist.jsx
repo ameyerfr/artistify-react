@@ -15,24 +15,31 @@ export default function Artists({ match }) {
   const { currentUser } = userContext;
 
   const [artist, setArtist] = useState(null)
+  const [artistStyle, setArtistStyle] = useState("")
 
   useEffect(() => {
-    apiHandler.get(`/artists/${match.params.id}`)
-    .then(apiRes => {
-      console.log(apiRes.data)
-      setArtist(apiRes.data);
-    });
 
-     return () => {};
-    }, []);
+    const getData = async () => {
+      const artistRes = await apiHandler.get(`/artists/${match.params.id}`);
+      setArtist(artistRes.data);
+
+      const styleRes = await apiHandler.get(`/styles/${artistRes.data.style}`);
+      setArtistStyle(styleRes.data.name)
+    }
+
+    getData()
+
+  }, []);
 
   return (
     !!artist ? <>
     <div className="page artist">
       <h1 className="title">{artist.name}</h1>
-      <p className="description">{artist.description}</p>
-      {/* <p className="style">{artist.style}</p> */}
-      <p>{!!artist.isBand ? "(BAND)": "(ALONE)"}</p>
+      <div className="description">
+        <div>{artist.description}</div>
+        <div>Band ? : {!!artist.isBand ? "YES": "NO"}</div>
+        <div>Artist style : {artistStyle === "" ? 'Fetching...' : artistStyle }</div>
+      </div>
       </div>
       </> :
     <div className="page artist">
