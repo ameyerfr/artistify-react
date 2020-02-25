@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 // custom tools
-// import apiHandler from "../api/APIHandler";
+import apiHandler from "../api/APIHandler";
 import UserContext from "../auth/UserContext";
 // import Comments from "../components/comment/Comments";
-// import FormatDate from "../components/FormatDate";
+import FormatDate from "../components/FormatDate";
 // import Stars from "../components/star/Stars";
 import LabPreview from "../components/LabPreview";
 // styles
@@ -15,15 +15,27 @@ export default function Album({ match }) {
   const userContext = useContext(UserContext);
   const { currentUser } = userContext;
 
+  const [album, setAlbum] = useState(null);
+
+  useEffect(() => {
+    apiHandler.get(`/albums/${match.params.id}`).then(apiRes => {
+      setAlbum(apiRes.data);
+    });
+
+    return () => {};
+  }, []);
+
   return (
-    <>
-      <h1 className="title diy">D.I.Y (Album)</h1>
-      <p>
-        Use the image below to code the {`<Album />`} component.
-        <br />
-        This component import child components: {`<Stars />`} and{" "}
-        {`<Comments />`}{" "}
-      </p>
+
+    !!album ? <>
+      <div className="page album">
+
+        <h1 className="title">{album.title}</h1>
+        <img className="cover" src={album.cover} alt={album.title}/>
+        <p className="description">{album.description}</p>
+
+         <p className="publishing">Album made by {album.artist.name}, created on <FormatDate date={album.createdAt} rule="DD/MM/YYYY" /></p>
+      </div>
 
       <h1 className="title diy">D.I.Y (Stars)</h1>
       <p>
@@ -47,6 +59,9 @@ export default function Album({ match }) {
       </p>
 
       <LabPreview name="album" />
-    </>
+    </> :
+    <div className="page album">
+      <p>Loading data ...</p>
+    </div>
   );
 }

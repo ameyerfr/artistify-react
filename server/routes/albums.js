@@ -54,6 +54,8 @@ router.get("/albums", (req, res, next) => {
 
 router.get("/albums/:id", (req, res, next) => {
   albumModel.findById(req.params.id)
+  .populate("artist")
+  .populate("label")
   .then(album => {
     res.status(200).json(album)
   }).catch(err => {

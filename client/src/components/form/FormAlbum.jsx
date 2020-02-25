@@ -47,6 +47,11 @@ export default withRouter(function FormAlbum({
       if (mode === "edit") {
         const albumRes = await APIHandler.get(`/albums/${_id}`);
 
+        // In the state we want to store the id's of artist & labels
+        // Because of the <selects> and when we post / patch to the server
+        albumRes.data.artist = albumRes.data.artist._id;
+        albumRes.data.label = albumRes.data.label._id;
+
         // Convert date
         albumRes.data.releaseDate =  new Date(albumRes.data.releaseDate).toISOString().slice(0,10);
 
