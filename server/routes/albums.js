@@ -91,7 +91,10 @@ router.patch("/albums/:id", uploader.single("cover"), (req, res, next) => {
 });
 
 router.delete("/albums/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  albumModel
+    .findByIdAndDelete(req.params.id)
+    .then(dbRes => res.json(dbRes))
+    .catch(next);
 });
 
 module.exports = router;

@@ -81,7 +81,10 @@ router.patch("/artists/:id", (req, res, next) => {
 });
 
 router.delete("/artists/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel
+    .findByIdAndRemove(req.params.id)
+    .then(dbRes => res.json(dbRes))
+    .catch(next);
 });
 
 module.exports = router;
