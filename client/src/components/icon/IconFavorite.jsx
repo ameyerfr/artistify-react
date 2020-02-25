@@ -14,7 +14,6 @@ export default function IconFavorite({
   const toggleFavorite = () => {
     APIHandler.patch(`/users/favorites/${resourceType}/${resourceId}`, {})
       .then(apiRes => {
-        console.log(apiRes.data);
         setIsFavorite(apiRes.data.isFavorite === true);
       })
       .catch(apiErr => console.error(apiErr));

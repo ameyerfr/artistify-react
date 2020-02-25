@@ -30,7 +30,7 @@ app.use(express.json());
 
 /*
 Create a session middleware with the given options.
-Note:  Session data is not saved in the cookie itself, just the session ID. 
+Note:  Session data is not saved in the cookie itself, just the session ID.
 Session data is stored server-side.
 */
 app.use(

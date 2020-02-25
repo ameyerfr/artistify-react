@@ -1,10 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-// custom tools
-import IconFav from "../icon/IconFavorite";
-// styles
-import "./../../styles/icon-color.css";
+import Card from './Card'
 
 export default function CardArtist({ data }) {
-  return <div>@todo</div>;
+  return <Card resourceType='albums' data = {data} />
 }
