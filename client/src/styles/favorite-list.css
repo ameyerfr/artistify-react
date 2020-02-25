@@ -1,0 +1,38 @@
+.fav-list {
+  max-width: 80%;
+}
+
+.fav-list-item {
+  display:flex;
+  margin-bottom: 30px;
+}
+
+.fav-list-image {
+  width:200px;
+}
+.fav-list-item img {
+  max-height:100px;
+  border:1px solid #999;
+  box-shadow: 6px 6px 15px -9px rgba(0, 0, 0, 0.75);
+}
+
+.fav-list-title {
+  font-size:1.2rem;
+}
+
+.fav-list-item span {
+  color:blue;
+}
+
+.fav-list-details {
+  margin-left:20px;
+}
+
+.fav-list-details a:hover {
+  color:blue;
+  font-weight: bold; 
+}
+
+.fav-list-details .icon-favorite {
+  position: inherit;
+}

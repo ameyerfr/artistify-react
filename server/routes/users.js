@@ -23,7 +23,11 @@ router.get("/users/:id", async (req, res, next) => {
 });
 
 router.get("/users/:id/favorites", async (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  userModel.findById(req.params.id)
+  .populate("favorites.albums")
+  .then(user => {
+    res.status(200).json({favoriteAlbums : user.favorites.albums})
+  }).catch(next)
 });
 
 router.patch("/users/favorites/:resourceType/:id", async (req, res, next) => {
@@ -49,7 +53,7 @@ router.patch("/users/favorites/:resourceType/:id", async (req, res, next) => {
     });
 
   }).catch(next)
-  
+
 });
 
 module.exports = router;
