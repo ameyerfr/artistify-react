@@ -49,8 +49,8 @@ export default withRouter(function FormAlbum({
 
         // In the state we want to store the id's of artist & labels
         // Because of the <selects> and when we post / patch to the server
-        albumRes.data.artist = albumRes.data.artist._id;
-        albumRes.data.label = albumRes.data.label._id;
+        if (albumRes.data.artist) albumRes.data.artist = albumRes.data.artist._id;
+        if (albumRes.data.label) albumRes.data.label = albumRes.data.label._id;
 
         // Convert date
         albumRes.data.releaseDate =  new Date(albumRes.data.releaseDate).toISOString().slice(0,10);
