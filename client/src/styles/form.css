@@ -87,3 +87,7 @@
 .form .row > .input + .icon {
   margin-left: 20px;
 }
+
+.checkboxes {
+  display: flex;
+}

@@ -5,7 +5,6 @@ const express = require("express");
 const router = new express.Router();
 
 const artistModel = require("../models/Artist");
-const albumModel = require("../models/Album");
 
 const getAverageRate = async idArtist => {
   // use agregate features @ mongo db to code this feature
@@ -47,7 +46,12 @@ router.get("/artists", async (req, res, next) => {
 
 
 router.get("/artists/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel.findById(req.params.id)
+  .then(artist => {
+    res.status(200).json(artist)
+  }).catch(err => {
+    res.status(500).json(err)
+  })
 });
 
 router.get("/filtered-artists", (req, res, next) => {
@@ -55,11 +59,27 @@ router.get("/filtered-artists", (req, res, next) => {
 });
 
 router.post("/artists", (req, res) => {
-  res.status(200).json({ msg: "@todo" })
-});
+  const newArtist = {...req.body}
 
-router.patch("/artists/:id", async (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel.create(newArtist)
+  .then((results) => {
+    res.status(200).json({ msg: "YES" })
+  }).catch(err => {
+    res.status(500).json(err)
+  });
+})
+
+router.patch("/artists/:id", (req, res, next) => {
+  const updatedArtist = req.body;
+
+  console.log(req.body)
+
+  artistModel
+    .findByIdAndUpdate(req.params.id, updatedArtist)
+    .then(dbRes => {
+      res.status(200).json(dbRes);
+    })
+    .catch(next);
 });
 
 router.delete("/artists/:id", (req, res, next) => {
