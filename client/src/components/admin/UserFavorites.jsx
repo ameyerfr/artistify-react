@@ -6,27 +6,39 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 //custom tools
 import { useAuth } from "../../auth/useAuth";
 import APIHandler from "../../api/APIHandler";
-// styles
+
+// Favorite list
+import FavoriteList from "./FavoriteList.jsx";
+import './../../styles/favorite-list.css'
 
 export default function UserFavorites() {
-  const [favorites, setFavorites] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [favoritesAlbums, setFavoritesAlbums] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
 
+  useEffect(() => {
+    APIHandler.get(`/users/${currentUser._id}/favorites`).then(apiRes => {
+      setFavoritesAlbums(apiRes.data.favoriteAlbums)
+      setIsLoading(false)
+    });
 
-  return isLoading ? null : (
+    return () => {};
+  }, []);
+
+  return isLoading ? <div className="page"><p>Loading ...</p></div> : (
 
     <div>
-      <h1 className="title diy">D.I.Y (User favorites)</h1>
-      <p>
-        Fetch currentUser's favorites with axios.
-          <br />
-        Update the rendered template to display them.
-          <br />
-        It would be better to create a dedicated component.
-        </p>
-    </div>
+      <h2 className="title">Favorite Albums</h2>
+      {favoritesAlbums.length === 0 && <p>No favorite albums yet ...</p>}
+      {favoritesAlbums.length > 0 &&
+        <div className="fav-list">
+          {favoritesAlbums.map((album, i) => (
+            <FavoriteList data={album} key={i} />
+          ))}
+        </div>
+      }
 
+    </div>
 
   );
 }
