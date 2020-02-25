@@ -11,6 +11,9 @@ export default  function Card({resourceType, data}) {
       <>
       <Link to={`/${resourceType}/${data._id}`} className="link">
       <h3 className="title">{resourceType === 'albums' ? data.title : data.name}</h3>
+      
+      {resourceType === 'artists' && <div className="icon-color color" style={{backgroundColor:data.style.color}}></div>}
+
       {resourceType === 'albums' && <img src={data.cover} alt={data.title} className="cover"/>}
       </Link>
       {resourceType === 'albums' &&  <IconFav resourceType={resourceType} resourceId={data._id} isAlreadyFavorite={data.isFavorite} />}

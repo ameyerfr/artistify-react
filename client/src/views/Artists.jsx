@@ -21,8 +21,8 @@ useEffect(() => {
     return (
       <React.Fragment>
         <h1 className="title">All artists</h1>
-
-        <List
+        
+        <List      
           data={artists}
           Component={CardArtist}
           cssList="cards"
